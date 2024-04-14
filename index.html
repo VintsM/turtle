@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Imports</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        @property --animatedBgXPosition {
+            syntax: '<number>';
+            initial-value: -30;
+            inherits: false;
+        }
+
+        :root {
+            --staticBgXPosition: 134px;
+            --staticBgYPosition: 20px;
+            --staticBgXSize: 320px;
+            --staticBgYSize: 190px;
+
+            --animatedXPadding: 70px;
+            --animatedYPadding: 0px;
+            --animatedBgYPosition: 23px;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        /* Static */
+
+        .static {
+            position: relative;
+            display: inline-block;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 800;
+            font-size: 8rem;
+            color: transparent;
+            background: url(./images/turtle.png) var(--staticBgXPosition) var(--staticBgYPosition) no-repeat, linear-gradient(90deg, #0a496a, #0c567c, #0b3a58);
+            background-size: var(--staticBgXSize) var(--staticBgYSize), auto;
+            background-clip: text;
+            margin: 8rem 0 0;
+            padding: 0 0 60px;
+        }
+
+        .static:after {
+            content: "";
+            position: absolute;
+            top: var(--staticBgYPosition);
+            left: var(--staticBgXPosition);
+            width: var(--staticBgXSize);
+            height: var(--staticBgYSize);
+            background-image: url(./images/turtle_2.png);
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+        }
+
+        /* Animated */
+
+        .animated {
+            position: relative;
+            display: inline-block;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 800;
+            font-size: 8rem;
+            color: transparent;
+            background-image: url(./images/turtle.png), linear-gradient(90deg, #0a496a, #0c567c, #0b3a58);
+            background-position: calc(var(--animatedBgXPosition) * 1px + var(--animatedXPadding)) calc(var(--animatedBgYPosition) + var(--animatedYPadding)), top left;
+            background-repeat: no-repeat, no-repeat;
+            background-size: 320px 190px, auto;
+            background-clip: text;
+            padding: 0 var(--animatedXPadding) 60px var(--animatedXPadding);
+            margin: 8rem 0 0;
+        }
+
+        .animated::before,
+        .animated::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: calc(var(--animatedBgXPosition) * 1px + var(--animatedXPadding)) calc(var(--animatedBgYPosition) + var(--animatedYPadding));
+            background-repeat: no-repeat;
+            background-size: 320px 190px;
+        }
+
+         .animated::before {
+            background-image: url(./images/turtle_blur.png); /* using prepared blurred image is better for performance than css filter: blur() */
+            opacity: 0.2;
+        }
+
+         .animated::after {
+            background-image: url(./images/turtle_2.png);
+        }
+
+         @keyframes move {
+            100% {
+                --animatedBgXPosition: 260
+            }
+        }
+
+         .animated,
+         .animated::before,
+         .animated::after {
+             animation: 2.5s move forwards;
+             animation-delay: 1.2s;
+             animation-timing-function: cubic-bezier(0.31, 0.02, 0.32, 1);
+         }
+    </style>
+</head>
+<body>
+    <h1 class="static">TURTLE</h1>
+    <br />
+    <h1 class="animated">TURTLE</h1>
+</body>
+</html>
